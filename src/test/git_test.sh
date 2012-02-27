@@ -7,13 +7,17 @@ build_git_test_repository
 check "git repository"
   assert_equal      "git"    "`system`"
   assert_equal      "master" "`branch`"
+  hashkey=`hashkey`
+  assert_not_empty  "$hashkey"
+  assert_equal      "6"      "${#hashkey}"
   assert_equal      "1"      "`revision`"
-  assert_not_empty  "`hashkey`"
 
 echo
 
 check "git status"
-  assert_equal ""      "`modified`"
+  assert_equal "-"      "`modified`"
+  assert_equal "-"      "`untracked`"
+  assert_equal "-"      "`staged`"
 
   echo "test.*" > .gitignore
   assert_equal "+"     "`modified`"
