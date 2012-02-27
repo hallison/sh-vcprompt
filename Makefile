@@ -17,8 +17,7 @@ programs     = sh-vcp
 functions    = git.sh hg.sh
 
 documents    = README.html
-tests        = $(functions:.sh=_test.sh)
-errors       = $(addprefix $(testdir)/,$(tests:.sh=.err))
+errors       = test.err
 
 all:: build
 
@@ -36,6 +35,7 @@ all:: build
 clean:
 	rm -rf $(errors)
 	rm -rf $(documents)
+	rm -rf $(testdir)
 
 check: $(errors)
 

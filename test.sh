@@ -1,4 +1,6 @@
-. src/test/setup.sh
+. src/test.sh
+
+# Git tests
 . src/lib/git.sh
 
 build_test_directory "test/git_test"
@@ -28,6 +30,7 @@ check "git status"
   git add .gitignore
   assert_equal "*"      "`staged`"
 
+echo
+
 cd - > /dev/null
 
-echo
