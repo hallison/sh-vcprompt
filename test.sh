@@ -81,6 +81,8 @@ check "git version control system"
   assert_equal     "git" "`vcs`"
   assert_equal     "---" "`format "%m%u%a"`"
   assert_equal     "git:master" "`format "%s:%b"`"
+  hashkey=`hashkey`
+  assert_equal "1:$hashkey" "`format "%r:%h"`"
 
 echo
 

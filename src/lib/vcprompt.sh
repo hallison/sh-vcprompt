@@ -22,6 +22,8 @@ format() {
   echo "$1" | sed -n "
     s/%s/`vcs`/g;
     s/%b/`branch`/g;
+    s/%r/`revision`/g;
+    s/%h/`hashkey`/g;
     s/%m/`modified`/g;
     s/%u/`untracked`/g;
     s/%a/`staged`/g;
