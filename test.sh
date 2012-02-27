@@ -83,6 +83,16 @@ check "git version control system"
   assert_equal     "git:master" "`format "%s:%b"`"
   hashkey=`hashkey`
   assert_equal "1:$hashkey" "`format "%r:%h"`"
+  assert_equal "git:master[1:$hashkey:---]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  echo "test.*" > .gitignore
+  assert_equal "git:master[1:$hashkey:+--]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  touch README.md
+  assert_equal "git:master[1:$hashkey:+-?]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  git add .gitignore
+  assert_equal "git:master[1:$hashkey:-*?]" "`format "%s:%b[%r:%h:%m%a%u]"`"
 
 echo
 
