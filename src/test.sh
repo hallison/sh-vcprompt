@@ -19,6 +19,14 @@ build_git_test_repository() {
   $git commit --quiet --message "Repository created"
 }
 
+build_hg_test_repository() {
+  local hg=`command -v hg`
+  $hg init --quiet
+  touch .hgignore
+  touch .hgtags
+  $hg commit --addremove --quiet --message "Repository created" --user "Test"
+}
+
 # Asserts
 
 assert() {
