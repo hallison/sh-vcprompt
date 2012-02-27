@@ -1,14 +1,16 @@
 # Setup
-. src/test.sh
+prefix=$PWD/src
+libdir=${prefix}/lib
+
+. $prefix/test.sh
 
 # Git tests
-. src/lib/git.sh
+. $libdir/git.sh
 
 build_test_directory "test/git_test"
 build_git_test_repository
 
 check "git repository"
-  assert_equal      "git"    "`system`"
   assert_equal      "master" "`branch`"
   hashkey=`hashkey`
   assert_not_empty  "$hashkey"
@@ -36,13 +38,12 @@ echo
 cd - > /dev/null
 
 # Mercurial tests
-. src/lib/hg.sh
+. $libdir/hg.sh
 
 build_test_directory "test/hg_test"
 build_hg_test_repository
 
 check "hg repository"
-  assert_equal     "hg"      "`system`"
   assert_equal     "default" "`branch`"
   hashkey=`hashkey`
   assert_not_empty  $hashkey

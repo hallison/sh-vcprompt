@@ -5,7 +5,6 @@ __sh_vcp_hg_revision() {
   HGPLAIN=1 hg log --rev 0 --quiet
 }
 
-system()    { echo hg; }
 branch()    { cat .hg/undo.branch; }
 hashkey()   { __sh_vcp_hg_revision | cut -c 3-8; }
 revision()  { __sh_vcp_hg_revision | cut -d : -f 1; }
