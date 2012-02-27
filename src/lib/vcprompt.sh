@@ -25,8 +25,8 @@ format() {
     s/%r/`revision`/g;
     s/%h/`hashkey`/g;
     s/%m/`modified`/g;
-    s/%u/`untracked`/g;
     s/%a/`staged`/g;
+    s/%u/`untracked`/g;
     p
   "
 }

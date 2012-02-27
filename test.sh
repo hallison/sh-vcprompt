@@ -33,6 +33,8 @@ check "git status"
   git add .gitignore
   assert_equal "*"      "`staged`"
 
+  unset hashkey
+
 echo
 
 cd - > /dev/null
@@ -66,6 +68,8 @@ check "hg status when a new repository"
   hg add .hgignore
   assert_equal "*"      `staged`
 
+  unset hashkey
+
 echo
 
 cd - > /dev/null
@@ -77,9 +81,9 @@ build_test_directory "test/git_test"
 build_git_test_repository
 
 check "git version control system"
-  system # this must initialize the VCS
+  system
   assert_equal     "git" "`vcs`"
-  assert_equal     "---" "`format "%m%u%a"`"
+  assert_equal     "---" "`format "%m%a%u"`"
   assert_equal     "git:master" "`format "%s:%b"`"
   hashkey=`hashkey`
   assert_equal "1:$hashkey" "`format "%r:%h"`"
@@ -93,6 +97,11 @@ check "git version control system"
 
   git add .gitignore
   assert_equal "git:master[1:$hashkey:-*?]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  git add README.md
+  assert_equal "git:master[1:$hashkey:-*-]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  unset hashkey
 
 echo
 
