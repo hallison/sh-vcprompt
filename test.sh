@@ -70,3 +70,16 @@ echo
 
 cd - > /dev/null
 
+# Prompt tests
+. $libdir/vcprompt.sh
+
+build_test_directory "test/git_test"
+build_git_test_repository
+
+check "git version control system"
+  assert_equal "git" "`vcs`"
+
+echo
+
+cd - > /dev/null
+
