@@ -107,3 +107,32 @@ echo
 
 cd - > /dev/null
 
+build_test_directory "test/hg_test"
+build_hg_test_repository
+
+check "mercurial (hg) version control system"
+  system
+  assert_equal     "hg" "`vcs`"
+  assert_equal     "---" "`format "%m%a%u"`"
+  assert_equal     "hg:default" "`format "%s:%b"`"
+  hashkey=`hashkey`
+  assert_equal "0:$hashkey" "`format "%r:%h"`"
+  assert_equal "hg:default[0:$hashkey:---]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  echo "test.*" > .hgignore
+  assert_equal "hg:default[0:$hashkey:+*-]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  touch README.md
+  assert_equal "hg:default[0:$hashkey:+*?]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  hg add .hgignore
+  assert_equal "hg:default[0:$hashkey:+*?]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  hg add README.md
+  assert_equal "hg:default[0:$hashkey:+*-]" "`format "%s:%b[%r:%h:%m%a%u]"`"
+
+  unset hashkey
+
+echo
+
+cd - > /dev/null
