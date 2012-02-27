@@ -1,12 +1,16 @@
-# Setup
-
-sh_vcp=${PWD}/src/bin/sh-vcp
-vcs_supported="bzr git hg svn"
-
 # Helpers
 
 check() {
   printf "Checking %s: " "$*"
+}
+
+build_bzr_test_reporitory() {
+  local bzr=`command -v bzr`
+  $bzr init --quiet
+  $bzr whoami --quiet "Test <test@localhost.net>"
+  touch .bzrignore
+  $bzr add --quiet . 
+  $bzr commit --quiet --message "Repository created"
 }
 
 build_git_test_repository() {
@@ -25,6 +29,14 @@ build_hg_test_repository() {
   touch .hgignore
   touch .hgtags
   $hg commit --addremove --quiet --message "Repository created" --user "Test"
+}
+
+build_svn_test_repository() {
+  local svn=`command -v svn`
+  local svnadmin=`command -v svnadmin`
+  rm -rf /tmp/svn_test_remote
+  $svnadmin create /tmp/svn_test_remote
+  $svn checkout --quiet file:///tmp/svn_test_remote .
 }
 
 # Asserts

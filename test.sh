@@ -1,8 +1,9 @@
-# Setup
-prefix=$PWD/src
-libdir=${prefix}/lib
+: $PWD
+prefix=$PWD
+libdir=$prefix
 
-. $prefix/test.sh
+# Utilities
+. $libdir/utils.sh
 
 # Git tests
 . $libdir/git.sh
@@ -75,7 +76,7 @@ echo
 cd - > /dev/null
 
 # Prompt tests
-. $libdir/vcprompt.sh
+. $libdir/vcs.sh
 
 build_test_directory "test/git_test"
 build_git_test_repository
@@ -136,3 +137,4 @@ check "mercurial (hg) version control system"
 echo
 
 cd - > /dev/null
+
