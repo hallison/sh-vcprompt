@@ -11,3 +11,14 @@ vcs() {
   echo .* | sed -n 's/.*\(bzr\|git\|hg\|svn\).*/\1/gp'
 }
 
+# Initialize VCS library
+system() {
+  local vcs=`vcs`
+  test -f $libdir/$vcs.sh && . $libdir/$vcs.sh
+}
+
+format() {
+  : ${1:?format %m=modified, %u=untracked, %a=staged/added}
+  system
+  echo "$1" | sed -n "s/%m/`modified`/g;s/%u/`untracked`/g;s/%a/`staged`/gp"
+}

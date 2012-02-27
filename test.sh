@@ -78,6 +78,7 @@ build_git_test_repository
 
 check "git version control system"
   assert_equal "git" "`vcs`"
+  assert_equal "---" "`format "%m%u%a"`"
 
 echo
 
