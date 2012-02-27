@@ -20,5 +20,12 @@ system() {
 format() {
   : ${1:?format %m=modified, %u=untracked, %a=staged/added}
   system
-  echo "$1" | sed -n "s/%m/`modified`/g;s/%u/`untracked`/g;s/%a/`staged`/gp"
+  echo "$1" | sed -n "
+    s/%s/`vcs`/g;
+    s/%b/`branch`/g;
+    s/%m/`modified`/g;
+    s/%u/`untracked`/g;
+    s/%a/`staged`/g;
+    p
+  "
 }
