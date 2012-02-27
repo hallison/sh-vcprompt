@@ -19,7 +19,6 @@ system() {
 
 format() {
   : ${1:?format %m=modified, %u=untracked, %a=staged/added}
-  system
   echo "$1" | sed -n "
     s/%s/`vcs`/g;
     s/%b/`branch`/g;
