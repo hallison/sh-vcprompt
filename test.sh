@@ -106,6 +106,20 @@ check "git version control system"
 
 echo
 
+check "git has many hashes when it has have remotes"
+  cp -r ".git" "../git_remote_test.git" > /dev/null
+
+  git remote add origin "../git_remote_test.git"
+
+  git remote update > /dev/null
+
+  git commit --quiet --allow-empty --message "commit 2"
+  git commit --quiet --allow-empty --message "commit 3"
+
+  hashkey=`hashkey`
+  assert_equal "3:$hashkey" "`format "%r:%h"`"
+echo
+
 cd - > /dev/null
 
 build_test_directory "test/hg_test"

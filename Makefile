@@ -1,4 +1,5 @@
 .POSIX:
+SHELL = /bin/sh
 
 name          = sh-vcprompt
 version      ?= v0.1.0
