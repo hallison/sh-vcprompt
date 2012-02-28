@@ -2,8 +2,8 @@
 SHELL = /bin/sh
 
 name          = sh-vcprompt
-version      ?= v0.1.0
-release      ?= "`date +'%F %T %z'`"
+version      ?= $(shell git tag | sort | tail -1 | tr -d [v\n])
+release      ?= $(shell git log v$(version) --format='%ai' | head -1 | tr -d [\n])
 
 prefix       ?= /usr/local
 bindir       ?= $(prefix)/bin

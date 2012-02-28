@@ -1,7 +1,13 @@
 # Helpers
 
 check() {
-  printf "Checking %s: " "$*"
+  cd "$1" > /dev/null
+  printf "Checking %s: " "$2"
+}
+
+end() {
+  cd - > /dev/null
+  echo
 }
 
 build_bzr_test_reporitory() {

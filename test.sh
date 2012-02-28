@@ -8,19 +8,20 @@ libdir=$prefix
 # Git tests
 . $libdir/git.sh
 
-build_test_directory "test/git_test"
+git_test="test/git_test"
+
+build_test_directory $git_test
 build_git_test_repository
 
-check "git repository"
+check $git_test "git repository"
   assert_equal      "master" "`branch`"
   hashkey=`hashkey`
   assert_not_empty  "$hashkey"
   assert_equal      "6"      "${#hashkey}"
   assert_equal      "1"      "`revision`"
+end
 
-echo
-
-check "git status"
+check $git_test "git status"
   assert_equal "-"      "`modified`"
   assert_equal "-"      "`untracked`"
   assert_equal "-"      "`staged`"
@@ -35,27 +36,25 @@ check "git status"
   assert_equal "*"      "`staged`"
 
   unset hashkey
-
-echo
-
-cd - > /dev/null
+end
 
 # Mercurial tests
 . $libdir/hg.sh
 
-build_test_directory "test/hg_test"
+hg_test="test/hg_test"
+
+build_test_directory $hg_test
 build_hg_test_repository
 
-check "hg repository"
+check $hg_test "hg repository"
   assert_equal     "default" "`branch`"
   hashkey=`hashkey`
   assert_not_empty  $hashkey
   assert_equal      6 ${#hashkey}
   assert_equal     "0"       "`revision`"
+end
 
-echo
-
-check "hg status when a new repository"
+check $hg_test "hg status when a new repository"
   assert_equal "-"      "`modified`"
   assert_equal "-"      "`untracked`"
   assert_equal "-"      "`staged`"
@@ -70,18 +69,15 @@ check "hg status when a new repository"
   assert_equal "*"      `staged`
 
   unset hashkey
-
-echo
-
-cd - > /dev/null
+end
 
 # Prompt tests
 . $libdir/vcs.sh
 
-build_test_directory "test/git_test"
+build_test_directory $git_test
 build_git_test_repository
 
-check "git version control system"
+check $git_test "git version control system"
   system
   assert_equal     "git" "`vcs`"
   assert_equal     "---" "`format "%m%a%u"`"
@@ -103,10 +99,9 @@ check "git version control system"
   assert_equal "git:master[1:$hashkey:-*-]" "`format "%s:%b[%r:%h:%m%a%u]"`"
 
   unset hashkey
+end
 
-echo
-
-check "git has many hashes when it has have remotes"
+check $git_test "git has many hashes when it has have remotes"
   cp -r ".git" "../git_remote_test.git" > /dev/null
 
   git remote add origin "../git_remote_test.git"
@@ -118,14 +113,12 @@ check "git has many hashes when it has have remotes"
 
   hashkey=`hashkey`
   assert_equal "3:$hashkey" "`format "%r:%h"`"
-echo
+end
 
-cd - > /dev/null
-
-build_test_directory "test/hg_test"
+build_test_directory $hg_test
 build_hg_test_repository
 
-check "mercurial (hg) version control system"
+check $hg_test "mercurial (hg) version control system"
   system
   assert_equal     "hg" "`vcs`"
   assert_equal     "---" "`format "%m%a%u"`"
@@ -147,8 +140,6 @@ check "mercurial (hg) version control system"
   assert_equal "hg:default[0:$hashkey:+*-]" "`format "%s:%b[%r:%h:%m%a%u]"`"
 
   unset hashkey
+end
 
-echo
-
-cd - > /dev/null
 
