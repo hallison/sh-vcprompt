@@ -37,7 +37,7 @@ all:: build
 	chmod a+x $(@)
 
 .sh.err: 
-	sh -x $(<) 2> $(@)
+	time -p sh -x $(<) 2> $(@)
 
 .md.html:
 	markdown $(<) > $(@)
