@@ -27,11 +27,20 @@ sh_vcp_usage() {
   sed -n "s/^##//gp" $0
 }
 
-while getopts f:h opt; do
-  case $opt in
-    f) sh_vcp_system >/dev/null && sh_vcp_format "$OPTARG" && exit 0 ;;
-    h) sh_vcp_usage && exit 0 ;;
-    ?) sh_vcp_usage && exit 1 ;;
+test $# -gt 0 && {
+  case $1 in
+    -h|--help)
+      sh_vcp_usage && exit 0
+      ;;
+    -*)
+      sh_vcp_usage && exit 1
+      ;;
+    *)
+      sh_vcp_system > /dev/null && sh_vcp_format "$@"
+      ;;
   esac
-done
+} || {
+  sh_vcp_system > /dev/null && sh_vcp_format $SH_VCP_FORMAT # default format
+}
 
+exit 0
