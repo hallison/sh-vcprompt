@@ -3,6 +3,7 @@ SH_VCP_MODIFIED=${SH_VCP_MODIFIED:-'+'}
 SH_VCP_STAGED=${SH_VCP_STAGED:-'*'}
 SH_VCP_UNTRACKED=${SH_VCP_UNTRACKED:-'?'}
 SH_VCP_NONE=${SH_VCP_NONE:-'-'}
+SH_VCP_FORMAT=${SH_VCP_FORMAT:-[%s:%b]}
 
 # Template functions
 sh_vcp_branch()    { echo -n; }
@@ -17,8 +18,11 @@ sh_vcp_system() {
   # echo .* | awk '{ gsub(/[.]/, "", $3);  print $3 }'
   # echo .{bzr,git,hg,svn} | cut -d ' ' -f 3 | tr -d '.'
   local vcs=`echo .* | sed -n 's/.*\(bzr\|git\|hg\|svn\)[ \n].*/\1/gp'`
-  test -n "$vcs" && test -f $libdir/$vcs.sh && . $libdir/$vcs.sh
-  echo -n $vcs
+  test -n "$vcs"          &&
+  test -f $libdir/$vcs.sh &&
+  . $libdir/$vcs.sh       &&
+  echo -n $vcs            ||
+  return 1
 }
 
 sh_vcp_format() {
