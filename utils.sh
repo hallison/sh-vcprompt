@@ -1,8 +1,12 @@
 # Helpers
 
-check() {
+info() {
+  printf "%s\n" "-- $*"
+}
+
+testing() {
   cd "$1" > /dev/null
-  printf "Checking %s: " "$2"
+  printf "** Testing %s: " "$2"
 }
 
 end() {
@@ -10,39 +14,37 @@ end() {
   echo
 }
 
-build_bzr_test_reporitory() {
-  local bzr=`command -v bzr`
-  $bzr init --quiet
-  $bzr whoami --quiet "Test <test@localhost.net>"
-  touch .bzrignore
-  $bzr add --quiet . 
-  $bzr commit --quiet --message "Repository created"
+# Setup
+
+build_test_directory() {
+  : ${1:?test directory path}
+  rm -rf $1
+  mkdir -p $1
+  cd $1 > /dev/null
 }
 
-build_git_test_repository() {
-  local git=`command -v git`
-  $git init --quiet
-  touch .gitignore
-  touch .gitmodules
-  touch .gitkeep
-  $git add .
-  $git commit --quiet --message "Repository created"
+build_test_repository_git() {
+  info "Building test repository Git" && (
+    local git=`command -v git`
+    build_test_directory $1
+    : $PWD
+    $git init --quiet
+    touch .gitignore  && $git add .gitignore
+    touch .gitmodules && $git add .gitmodules
+    touch .gitkeep    && $git add .gitkeep
+    $git commit --quiet --message "Repository created"
+  ) && return 0 || exit $?
 }
 
-build_hg_test_repository() {
-  local hg=`command -v hg`
-  $hg init --quiet
-  touch .hgignore
-  touch .hgtags
-  $hg commit --addremove --quiet --message "Repository created" --user "Test"
-}
-
-build_svn_test_repository() {
-  local svn=`command -v svn`
-  local svnadmin=`command -v svnadmin`
-  rm -rf /tmp/svn_test_remote
-  $svnadmin create /tmp/svn_test_remote
-  $svn checkout --quiet file:///tmp/svn_test_remote .
+build_test_repository_hg() {
+  info "Building test repository Mercurial" && (
+    local hg=`command -v hg`
+    build_test_directory $1
+    $hg init --quiet
+    touch .hgignore
+    touch .hgtags
+    $hg commit --addremove --quiet --message "Repository created" --user "Test"
+  ) && return 0 || exit $?
 }
 
 # Asserts
@@ -59,11 +61,3 @@ assert_not_empty() {
   assert test "$1"
 }
 
-# Setup
-
-build_test_directory() {
-  : ${1:?test directory path}
-  rm -rf $1
-  mkdir -p $1
-  cd $1 > /dev/null
-}
