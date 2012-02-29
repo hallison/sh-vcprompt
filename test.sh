@@ -114,21 +114,27 @@ test_vcs_git() {
     unset hashkey
   end
 
-  testing $git_test "git has many hashes when it has have remotes"
-    cp -r ".git" "../git_remote_test.git" > /dev/null
-
-    git remote add origin "../git_remote_test.git"
-
-    git remote update > /dev/null
-
+  testing $git_test "git has many hashes when is cloned"
     git commit --quiet --allow-empty --message "commit 2"
     git commit --quiet --allow-empty --message "commit 3"
 
-    git push origin master --quiet
-    git remote update 2>&1 > /dev/null
+    cp -r ".git" "../git_remote_test.git" > /dev/null
+
+    cd ../git_remote_test.git > /dev/null
+
+    git update-server-info > /dev/null
+
+    cd .. > /dev/null
+
+    rm -rf $git_test
+
+    git clone --quiet git_remote_test.git $git_test 2> /dev/null
+
+    cd $git_test
 
     hashkey=`sh_vcp_hashkey`
-    assert_equal "3:$hashkey" "`sh_vcp_format "%r:%h"`"
+    assert_equal "3"        "`sh_vcp_format "%r"`"
+    assert_equal "$hashkey" "`sh_vcp_format "%h"`"
   end
 }
 
