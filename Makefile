@@ -22,6 +22,7 @@ executables   = $(addprefix $(bindir)/,$(program))
 libraries     = $(addprefix $(libdir)/,$(sources))
 documents     = $(addprefix $(docdir)/,README.html)
 
+test 	 	 	 	 ?= all
 errors        = test.err
 
 munge         = m4 -D_NAME=$(name) -D_VERSION=$(version) -D_RELEASE=$(release) \
@@ -37,7 +38,7 @@ all:: build
 	chmod a+x $(@)
 
 .sh.err: 
-	time -p sh -x $(<) 2> $(@)
+	time -p sh -x $(<) $(test) 2> $(@)
 
 .md.html:
 	markdown $(<) > $(@)

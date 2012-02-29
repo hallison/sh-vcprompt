@@ -7,7 +7,7 @@ changecom()dnl
 ##
 ##Options:
 ##  -f    Format output.
-##  -H    Show this message.
+##  -h    Show this message.
 ##
 ##Formats:
 ##  %s    Show Version Control System - VCS.
@@ -23,15 +23,15 @@ changecom()dnl
 
 . ${libdir}/vcs.sh
 
-usage() {
+sh_vcp_usage() {
   sed -n "s/^##//gp" $0
 }
 
 while getopts f:h opt; do
   case $opt in
-    f) test vcs >/dev/null && format "$OPTARG" && exit 0 ;;
-    h) usage && exit 0 ;;
-    ?) usage && exit 1 ;;
+    f) sh_vcp_system >/dev/null && sh_vcp_format "$OPTARG" && exit 0 ;;
+    h) sh_vcp_usage && exit 0 ;;
+    ?) sh_vcp_usage && exit 1 ;;
   esac
 done
 
