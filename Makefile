@@ -3,7 +3,7 @@ SHELL = /bin/sh
 
 name          = sh-vcprompt
 version      ?= $(shell git tag | sort | tail -1 | tr -d [v\n])
-release      ?= $(shell git log v$(version) --format='%ai' | head -1 | tr -d [\n])
+release      ?= $(shell git log v$(version) --format='%ad' --date=short | head -1 | tr -d [\n])
 
 prefix       ?= /usr/local
 bindir       ?= $(prefix)/bin
@@ -25,9 +25,9 @@ documents     = $(addprefix $(docdir)/,README.html)
 test 	 	 	 	 ?= all
 errors        = test.err
 
-munge         = m4 -D_NAME=$(name) -D_VERSION=$(version) -D_RELEASE=$(release) \
-                   -D_PREFIX=$(prefix) -D_BINDIR=$(bindir) -D_LIBDIR=$(libdir) \
-                   -D_PROGRAM=$(program)
+munge         = m4 -D_NAME="$(name)" -D_VERSION="$(version)" -D_RELEASE="$(release)" \
+                   -D_PREFIX="$(prefix)" -D_BINDIR="$(bindir)" -D_LIBDIR="$(libdir)" \
+                   -D_PROGRAM="$(program)"
 
 all:: build
 
