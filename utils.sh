@@ -14,6 +14,20 @@ end() {
   echo
 }
 
+# Asserts
+
+assert() {
+  eval "$@" && printf "." || printf "F"
+}
+
+assert_equal() {
+  assert test "$1" = "$2"
+}
+
+assert_not_empty() {
+  assert test "$1"
+}
+
 # Setup
 
 build_test_directory() {
@@ -47,17 +61,5 @@ build_test_repository_hg() {
   ) && return 0 || exit $?
 }
 
-# Asserts
 
-assert() {
-  eval "$@" && printf "." || printf "F"
-}
-
-assert_equal() {
-  assert test "$1" = "$2"
-}
-
-assert_not_empty() {
-  assert test "$1"
-}
 

@@ -4,18 +4,26 @@ SH_VCP_STAGED=${SH_VCP_STAGED:-'*'}
 SH_VCP_UNTRACKED=${SH_VCP_UNTRACKED:-'?'}
 SH_VCP_NONE=${SH_VCP_NONE:-'-'}
 
+# Template functions
+sh_vcp_branch()    { echo -n; }
+sh_vcp_hashkey()   { echo -n; }
+sh_vcp_revision()  { echo -n; }
+sh_vcp_modified()  { echo -n; }
+sh_vcp_staged()    { echo -n; }
+sh_vcp_untracked() { echo -n; }
+
 # Initialize VCS library and echoes the VCS name
 sh_vcp_system() {
   # echo .* | awk '{ gsub(/[.]/, "", $3);  print $3 }'
   # echo .{bzr,git,hg,svn} | cut -d ' ' -f 3 | tr -d '.'
-  local vcs=`echo .* | sed -n 's/.*\(bzr\|git\|hg\|svn\).*/\1/gp'`
+  local vcs=`echo .* | sed -n 's/.*\(bzr\|git\|hg\|svn\)[ \n].*/\1/gp'`
   test -n "$vcs" && test -f $libdir/$vcs.sh && . $libdir/$vcs.sh
   echo -n $vcs
 }
 
 sh_vcp_format() {
   : ${1:?format %m=modified, %a=staged/added, %u=untracked}
-  echo "$1" | sed -n "
+  echo -n "$1" | sed -n "
     s/%s/`sh_vcp_system`/g;
     s/%b/`sh_vcp_branch`/g;
     s/%r/`sh_vcp_revision`/g;

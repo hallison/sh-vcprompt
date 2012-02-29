@@ -8,6 +8,14 @@ libdir=$prefix
 # Setup
 git_test="$PWD/test/git_test"
 hg_test="$PWD/test/hg_test"
+common_dir_test="$PWD/test/common_dir_test"
+
+test_all() {
+  for vcs in git hg invalid; do
+    type test_$vcs     > /dev/null && test_$vcs
+    type test_vcs_$vcs > /dev/null && test_vcs_$vcs
+  done
+}
 
 # Git tests
 test_git() {
@@ -83,7 +91,7 @@ test_vcs_git() {
   build_test_repository_git $git_test
 
   testing $git_test "git version control system"
-    sh_vcp_system # bootstrap to VCS library
+    sh_vcp_system > /dev/null # bootstrap to VCS library
     assert_equal     "git" "`sh_vcp_system`"
     assert_equal     "---" "`sh_vcp_format "%m%a%u"`"
     assert_equal     "git:master" "`sh_vcp_format "%s:%b"`"
@@ -130,7 +138,7 @@ test_vcs_hg() {
   build_test_repository_hg $hg_test
 
   testing $hg_test "mercurial version control system"
-    sh_vcp_system # bootstrap to VCS library
+    sh_vcp_system > /dev/null # bootstrap to VCS library
     assert_equal     "hg"  "`sh_vcp_system`"
     assert_equal     "---" "`sh_vcp_format "%m%a%u"`"
     assert_equal     "hg:default" "`sh_vcp_format "%s:%b"`"
@@ -154,16 +162,24 @@ test_vcs_hg() {
   end
 }
 
-test_all() {
-  for vcs in git hg; do
-    type test_$vcs     > /dev/null && test_$vcs
-    type test_vcs_$vcs > /dev/null && test_vcs_$vcs
-  done
+test_vcs_invalid() {
+  . $libdir/vcs.sh
+
+  build_test_directory $common_dir_test
+
+  testing $common_dir_test "common directory"
+    assert_equal "" "`sh_vcp_system`"
+    assert_equal "" "`sh_vcp_format "%s"`"
+  end
+
+  testing $common_dir_test "directory with VCS refs files like configs"
+    touch .gitconfig
+    touch .hgrc
+    assert_equal "" "`sh_vcp_system`"
+    assert_equal "" "`sh_vcp_format "%s"`"
+  end
 }
 
 test -n $1 && type test_$1 > /dev/null && test_$1
-
-
-
 
 
