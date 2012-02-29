@@ -19,15 +19,19 @@ VCS like Fossil, Subversion and CVS, be added in the future versions.
 
 ## INSTALL
 
-Try checkout the main repository source hosted on Github.com:
+Try checkout from the main repository hosted on Github.com:
 
-    git clone http://github.com/codigorama/sh-vcprompt.git
+    git clone --branch master http://github.com/codigorama/sh-vcprompt.git
     cd sh-vcprompt
-    # install to system
+
+And type the following commands to install in system:
+
     make
     sudo make install
-    # user installation
-    make prefix=$HOME/.local
+
+For user install, try this:
+
+    make prefix=[path/to/your/scripts]
     make install
 
 ## USAGE
