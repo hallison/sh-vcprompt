@@ -1,4 +1,8 @@
-: $PWD
+SH_VCP_MODIFIED='+'
+SH_VCP_STAGED='*'
+SH_VCP_UNTRACKED='?'
+SH_VCP_NONE='-'
+SH_VCP_FORMAT=[%s:%b]
 prefix=$PWD
 libdir=$prefix
 

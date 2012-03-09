@@ -1,9 +1,9 @@
-SH_VCP_SUPPORTED="bzr:git:hg:svn"
-SH_VCP_MODIFIED=${SH_VCP_MODIFIED:-'+'}
-SH_VCP_STAGED=${SH_VCP_STAGED:-'*'}
-SH_VCP_UNTRACKED=${SH_VCP_UNTRACKED:-'?'}
-SH_VCP_NONE=${SH_VCP_NONE:-'-'}
-SH_VCP_FORMAT=${SH_VCP_FORMAT:-[%s:%b]}
+: ${SH_VCP_SUPPORTED:="bzr:git:hg:svn"}
+: ${SH_VCP_MODIFIED:='+'}
+: ${SH_VCP_STAGED:='*'}
+: ${SH_VCP_UNTRACKED:='?'}
+: ${SH_VCP_NONE:='-'}
+: ${SH_VCP_FORMAT:=[%s:%b]}
 
 # Template functions
 sh_vcp_branch()    { echo -n; }
