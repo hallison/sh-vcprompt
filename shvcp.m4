@@ -40,7 +40,7 @@ test $# -gt 0 && {
       ;;
   esac
 } || {
-  sh_vcp_system > /dev/null && sh_vcp_format $SH_VCP_FORMAT # default format
+  sh_vcp_system > /dev/null && sh_vcp_format "$SH_VCP_FORMAT" # default format
 }
 
 exit 0

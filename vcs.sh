@@ -27,6 +27,7 @@ sh_vcp_system() {
 
 sh_vcp_format() {
   : ${1:?format %m=modified, %a=staged/added, %u=untracked}
+  set -f
   echo -n "$1" | sed -n "
     s/%s/`sh_vcp_system`/g;
     s/%b/`sh_vcp_branch`/g;

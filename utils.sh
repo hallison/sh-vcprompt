@@ -17,7 +17,13 @@ end() {
 # Asserts
 
 assert() {
-  eval "$@" && printf "." || printf "F"
+  eval "$@" && {
+    : success
+    printf "."
+  } || {
+    : fail
+    printf "F"
+  }
 }
 
 assert_equal() {

@@ -1,5 +1,6 @@
+## NAME
+
 sh-vcprompt - VCS information in your prompt
-============================================
 
 ## SINOPSIS
 
